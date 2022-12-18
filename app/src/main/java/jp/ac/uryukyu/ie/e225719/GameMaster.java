@@ -82,11 +82,13 @@ public class GameMaster {
         System.out.println("処刑投票を行います。");
         for(Player p: players) {
             System.out.println(p.getName() + "さん投票を行なってください。");
-            p.vote(players, sc);
-            if(p instanceof WereWolf) {
-                System.out.println("襲撃投票を行います。");
-                WereWolf w = (WereWolf)p;
-                w.raid(players, sc);
+            if(!p.isDead()) {
+                p.vote(players, sc);
+                if(p instanceof WereWolf) {
+                    System.out.println("襲撃投票を行います。");
+                    WereWolf w = (WereWolf)p;
+                    w.raid(players, sc);
+                }
             }
         }
 
