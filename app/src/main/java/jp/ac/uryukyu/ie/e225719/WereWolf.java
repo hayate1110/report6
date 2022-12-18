@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import javax.crypto.CipherOutputStream;
-
 public class WereWolf extends Player {
     public static Map<Player,Integer> raidList = new HashMap<>();
 
