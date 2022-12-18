@@ -90,15 +90,14 @@ public class GameMaster {
                     w.raid(players, sc);
                 }
             }
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         }
 
         Player maxKey = players.get(0);
         int maxValue = 0;
 
         for(Map.Entry<Player,Integer> entry: Player.executionList.entrySet()) {
-            System.out.println(entry.getValue());
-            System.out.println(entry.getKey());
-
             if(entry.getValue() > maxValue) {
                 maxKey = entry.getKey();
                 maxValue = entry.getValue();
