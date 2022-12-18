@@ -1,7 +1,5 @@
 package jp.ac.uryukyu.ie.e225719;
 import java.util.Map;
-import java.io.IOError;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -39,7 +37,7 @@ public class WereWolf extends Player {
                 System.out.println("殺害優先度の合計がもっとも高いプレイヤーが襲撃されます。");
                 System.out.print("1~3の殺害優先度を入力してください:");
                 int point = sc.nextInt();
-                
+
                 if(point>0 && point<4) {
                     int v = raidList.getOrDefault(c, 0);
                     v += 1;

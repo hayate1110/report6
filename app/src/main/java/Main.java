@@ -23,11 +23,7 @@ public class Main {
         p1.vote(players, sc);
 
         for (Player p: Player.executionList.keySet()) {
-            System.out.println(p.getName() + ":" + Player.executionList.get(p));
-        }
-
-        for (Player p: Player.executionList.keySet()) {
-            System.out.println(p.getName() + ":" + Player.executionList.get(p));
+            System.out.println(p.getName() + "is" + Player.executionList.get(p));
         }
 
         if(p2 instanceof WereWolf) {
@@ -38,5 +34,8 @@ public class Main {
         for (Player p: WereWolf.raidList.keySet()) {
             System.out.println(p.getName() + "is" + WereWolf.raidList.get(p));
         }
+
+     GameMaster gm = new GameMaster();
+     gm.controlSettings(sc);
     }
 }

@@ -1,6 +1,5 @@
 package jp.ac.uryukyu.ie.e225719;
 import java.util.Map;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -30,7 +29,7 @@ public class Player {
                 System.out.print("処刑したいプレイヤーの番号を入力してください:");
                 int num = sc.nextInt();
                 Player p = players.get(num);
-                
+
                 if(!p.isDead) {
                     int value = executionList.getOrDefault(p, 0);
                     value += 1;
