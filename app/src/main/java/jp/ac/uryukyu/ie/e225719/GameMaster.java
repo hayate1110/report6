@@ -35,20 +35,22 @@ public class GameMaster {
                 sc.nextLine();
     
                 for(int i=0;i<numWolf;i++) {
-                    System.out.print("プレイヤーの名前を入力してください:");
-                    String name = sc.nextLine();
-                    players.add(new WereWolf(name));
+                    players.add(new WereWolf("w"));
                 }
     
                 for(int i=0;i<numCitizen;i++) {
-                    System.out.print("プレイヤーの名前を入力してください:");
+                    players.add(new Citizen("c"));
+                }
+
+                Collections.shuffle(players);
+
+                for(Player p: players) {
+                    System.out.println("プレイヤーの名前を入力してください:");
                     String name = sc.nextLine();
-                    players.add(new Citizen(name));
+                    p.setName(name);
                 }
     
                 this.dayTime = time;
-
-                Collections.shuffle(players);
                 break;
             } catch(InputMismatchException e) {
                 sc.nextLine();
@@ -78,7 +80,7 @@ public class GameMaster {
         }
     }
 
-    public void vote() {
+    private void vote() {
         System.out.println("処刑投票を行います。");
         for(Player p: players) {
             System.out.println(p.getName() + "さん投票を行なってください。");
@@ -117,7 +119,7 @@ public class GameMaster {
         Player.executionList.clear();
     }
 
-    public void raid() {
+    private void raid() {
         Player maxKey = players.get(0);
         int maxValue = 0;
         for(Map.Entry<Player,Integer> entry: WereWolf.raidList.entrySet()) {
@@ -140,7 +142,7 @@ public class GameMaster {
         WereWolf.raidList.clear();
     }
 
-    public boolean judge() {
+    private boolean judge() {
         int wolfs = 0;
         int citizens = 0;
 
