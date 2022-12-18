@@ -13,7 +13,7 @@ public class GameMaster {
         dayTime = 60;
     }
 
-    public void controlSettings(Scanner sc) {
+    public void setUp(Scanner sc) {
         while(true) {
             try {
                 System.out.print("参加人数を入力してください:");
@@ -47,9 +47,6 @@ public class GameMaster {
                 System.out.println("整数を入力してください。");
             }
         }
-    }
-
-    public void assignRole() {
     }
 
     public void play() {

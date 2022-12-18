@@ -36,6 +36,6 @@ public class Main {
         }
 
      GameMaster gm = new GameMaster();
-     gm.controlSettings(sc);
+     gm.setUp(sc);
     }
 }
