@@ -1,5 +1,6 @@
 package jp.ac.uryukyu.ie.e225719;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;

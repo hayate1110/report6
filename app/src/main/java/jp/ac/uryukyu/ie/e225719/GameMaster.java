@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
@@ -15,9 +16,9 @@ public class GameMaster {
     private Scanner sc;
 
     public GameMaster() {
-        players = new ArrayList<>();
-        sc = new Scanner(System.in);
-        dayTime = 60;
+        this.players = new ArrayList<>();
+        this.sc = new Scanner(System.in);
+        this.dayTime = 60;
     }
 
     public void setUp() {

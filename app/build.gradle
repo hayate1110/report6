@@ -40,4 +40,8 @@ jar {
     }
 }
 
+run {
+    standardInput = System.in
+}
+
 sourceCompatibility = 10
