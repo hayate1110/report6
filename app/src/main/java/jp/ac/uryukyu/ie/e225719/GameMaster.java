@@ -1,6 +1,7 @@
 package jp.ac.uryukyu.ie.e225719;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class GameMaster {
     public static ArrayList<Player> players;
@@ -11,8 +12,22 @@ public class GameMaster {
         dayTime = 180;
     }
 
-    public void run() {
+    public void setUp() {
 
+    }
+
+    public void run() {
+        while(true) {
+            try {
+                TimeUnit.SECONDS.sleep(dayTime);
+            }catch(InterruptedException e) {
+            }
+            actToPlayers();
+            execution();
+            if(judge()) break;
+            raid();
+            if(judge()) break;
+        }
     }
 
     public void actToPlayers() {
