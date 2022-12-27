@@ -1,174 +1,45 @@
 package jp.ac.uryukyu.ie.e225719;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import java.util.Random;
-
 
 public class GameMaster {
-    private ArrayList<Player> players;
+    public static ArrayList<Player> players;
     private int dayTime;
-    private Scanner sc;
 
     public GameMaster() {
-        this.players = new ArrayList<>();
-        this.sc = new Scanner(System.in);
-        this.dayTime = 60;
+        players = new ArrayList<>();
+        dayTime = 180;
     }
 
-    public void setUp() {
-        while(true) {
-            try {
-                System.out.print("参加人数を入力してください:");
-                int numPeople = sc.nextInt();
-    
-                System.out.print("人狼の数を入力してください:");
-                int numWolf = sc.nextInt();
-                int numCitizen = numPeople - numWolf;
-    
-                System.out.print("議論の時間の長さを入力してください(秒):");
-                int time = sc.nextInt();
-                sc.nextLine();
-    
-                for(int i=0;i<numWolf;i++) {
-                    players.add(new WereWolf("w"));
-                }
-    
-                for(int i=0;i<numCitizen;i++) {
-                    players.add(new Citizen("c"));
-                }
+    public void run() {
 
-                Collections.shuffle(players);
-
-                for(Player p: players) {
-                    System.out.println("プレイヤーの名前を入力してください:");
-                    String name = sc.nextLine();
-                    p.setName(name);
-                }
-    
-                this.dayTime = time;
-                break;
-            } catch(InputMismatchException e) {
-                sc.nextLine();
-                System.out.println("整数を入力してください。");
-            }
-        }
     }
 
-    public void play() {
-        System.out.println("人狼を開始します。");
-        setUp();
-        while(true) {
-            try {
-                System.out.println("朝になりました。話し合いを開始してください(" + dayTime + "秒)。");
-                TimeUnit.SECONDS.sleep(dayTime);
-                System.out.println();
-            } catch(InterruptedException e) {
+    public void actToPlayers() {
 
-            }
-            System.out.println("夜になりました。");
-
-            vote();
-            if(judge()) break;
-
-            raid();
-            if(judge()) break;
-        }
     }
 
-    private void vote() {
-        System.out.println("処刑投票を行います。");
-        for(Player p: players) {
-            System.out.println(p.getName() + "さん投票を行なってください。");
-            if(!p.isDead()) {
-                p.vote(players, sc);
-                if(p instanceof WereWolf) {
-                    System.out.println("襲撃投票を行います。");
-                    WereWolf w = (WereWolf)p;
-                    w.raid(players, sc);
-                }
-            }
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
+    public void execution() {
 
-        Player maxKey = players.get(0);
-        int maxValue = 0;
-
-        for(Map.Entry<Player,Integer> entry: Player.executionList.entrySet()) {
-            if(entry.getValue() > maxValue) {
-                maxKey = entry.getKey();
-                maxValue = entry.getValue();
-            }
-            else if(entry.getValue() == maxValue) {
-                Random ran = new Random();
-                int r = ran.nextInt(2);
-                if(r == 1){
-                    maxKey = entry.getKey();
-                    maxValue = entry.getValue();
-                }
-            }
-        }
-        
-        System.out.println("投票の結果" + maxKey.getName() + "さんが処刑されます。");
-        maxKey.setDead(true);
-        Player.executionList.clear();
     }
 
-    private void raid() {
-        Player maxKey = players.get(0);
-        int maxValue = 0;
-        for(Map.Entry<Player,Integer> entry: WereWolf.raidList.entrySet()) {
-            if(entry.getValue() > maxValue) {
-                maxKey = entry.getKey();
-                maxValue = entry.getValue();
-            }
-            else if(entry.getValue() == maxValue) {
-                Random ran = new Random();
-                int r = ran.nextInt(2);
-                if(r == 1){
-                    maxKey = entry.getKey();
-                    maxValue = entry.getValue();
-                }
-            }
-        }
+    public void raid() {
 
-        System.out.println(maxKey.getName() + "さんが襲撃されました。");
-        maxKey.setDead(true);
-        WereWolf.raidList.clear();
     }
 
-    private boolean judge() {
-        int wolfs = 0;
-        int citizens = 0;
+    public boolean judge() {
+        return true;
+    }
 
-        for(Player p: players) {
-            if(!p.isDead()) {
-                if(p instanceof Citizen) {
-                    citizens += 1;
-                }
-                else {
-                    wolfs += 1;
-                }
-            }
-        }
+    public static String inputString(String message) {
+        return "";
+    }
 
-        if(wolfs == 0) {
-            System.out.println("人狼の数が0人になりました。市民側の勝利です。");
-            return true;
-        }
+    public static int inoutInt(String message) {
+        return 0;
+    }
 
-        else if(citizens == wolfs) {
-            System.out.println("市民と人狼の数が同数になりました。人狼側の勝利です。");
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static void outoutString(String message) {
+
     }
 }
