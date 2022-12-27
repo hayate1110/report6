@@ -1,11 +1,15 @@
 package jp.ac.uryukyu.ie.e225719;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class GameMaster {
     public static ArrayList<Player> players;
     private int dayTime;
+
+    public static Scanner sc = new Scanner(System.in);
 
     public GameMaster() {
         players = new ArrayList<>();
@@ -47,14 +51,30 @@ public class GameMaster {
     }
 
     public static String inputString(String message) {
-        return "";
+        String result = "";
+        while(result == "") {
+            System.out.print(message);
+            result = sc.nextLine();
+        }
+        return result;
     }
 
-    public static int inoutInt(String message) {
-        return 0;
+    public static int inputInt(String message) {
+        int result;
+        while(true) {
+            try {
+                System.out.print(message);
+                result = sc.nextInt();
+                break;
+            }catch(InputMismatchException e) {
+                System.out.println("整数を入力してください。");
+                sc.nextLine();
+            }
+        }
+        return result;
     }
 
-    public static void outoutString(String message) {
-
+    public static void outputString(String message) {
+        System.out.println(message);
     }
 }
