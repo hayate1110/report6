@@ -3,15 +3,15 @@ package jp.ac.uryukyu.ie.e225719;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.util.concurrent.ExecutionList;
-
 public class GameMaster {
     private ArrayList<Player> players;
     private int dayTime;
+    private Random rand = new Random();
 
     public static Scanner sc = new Scanner(System.in);
 
@@ -21,12 +21,12 @@ public class GameMaster {
     }
 
     public void setUp() {
-        int numPlayers = inputInt("参加人数を入力してください。");
-        int numWolfs = inputInt("人狼の数を入力してください。");
-        int numFortuneTellers = inputInt("占い師の数を入力してください。");
-        int numKnights = inputInt("騎士の数を入力してください。");
+        int numPlayers = inputInt("参加人数を入力してください:");
+        int numWolfs = inputInt("人狼の数を入力してください:");
+        int numFortuneTellers = inputInt("占い師の数を入力してください:");
+        int numKnights = inputInt("騎士の数を入力してください:");
         int numCitizens = numPlayers - (numWolfs + numFortuneTellers + numKnights);
-        dayTime = inputInt("話し合いの時間を入力してください。");
+        dayTime = inputInt("話し合いの時間を入力してください:");
         
         for(int i=0;i<numCitizens;i++) {
             players.add(new Citizen());
@@ -43,11 +43,12 @@ public class GameMaster {
         for(int i=0;i<numKnights;i++) {
             players.add(new Knight());
         }
+        sc.nextLine();
 
         Collections.shuffle(players);
 
         for(int i=0;i<players.size();i++) {
-            String name = inputString(i+"番目のプレイヤーの名前を入力してください：");
+            String name = inputString((i+1) + "番目のプレイヤーの名前を入力してください：");
             players.get(i).setName(name);
             System.out.println("あなたの役職は"+players.get(i).getRole()+"です。");
         }
@@ -55,10 +56,13 @@ public class GameMaster {
 
     public void run() {
         while(true) {
+            outputString("昼になりました。話し合いを行ってください。（" + dayTime + "秒）");
             try {
                 TimeUnit.SECONDS.sleep(dayTime);
             }catch(InterruptedException e) {
             }
+
+            outputString("夜になりました。各プレイヤーは行動を行ってください。");
             actToPlayers();
             execution();
             if(judge()) break;
@@ -69,28 +73,76 @@ public class GameMaster {
 
     public void actToPlayers() {
         for(Player p: players) {
-            p.act(players);
+            if(!p.isDead()) {
+                outputString(p.getName()+"さん、操作してください。");
+                p.act(players);
+                clearConsoleScreen();
+            }
         }
     }
 
     public void execution() {
-        Player max = players.get(0);
+        Player candidPlayer = players.get(0);
         for(Map.Entry<Player,Integer> map: Player.executionList.entrySet()) {
-            if(Player.executionList.getOrDefault(max, 0) <= map.getValue()) {
-                max = map.getKey();
+            int valueCandid = Player.executionList.getOrDefault(candidPlayer, 0);
+            if(valueCandid < map.getValue()) {
+                candidPlayer = map.getKey();
+            } else if(valueCandid == map.getValue()) {
+                int r = rand.nextInt(2);
+                if(r == 0) {
+                    candidPlayer = map.getKey();
+                }
             }
         }
-        
-        outputString("投票の結果、" + max.getName() + "さんが処刑されました。");
-        max.setDead(true);
+
+        candidPlayer.setDead(true);
+        outputString("投票の結果、" + candidPlayer.getName() + "さんが処刑されました。");
+
+        Player.executionList.clear();
     }
 
     public void raid() {
-        
+        Player candidPlayer = players.get(0);
+
+        for(Map.Entry<Player,Integer> map: WereWolf.raidList.entrySet()) {
+            int valueCandid = WereWolf.raidList.getOrDefault(candidPlayer, 0);
+            if(valueCandid < map.getValue()) {
+                candidPlayer = map.getKey();
+            } else if(valueCandid == map.getValue()) {
+                int r = rand.nextInt(2);
+                if(r == 0) {
+                    candidPlayer = map.getKey();
+                }   
+            }
+        }
+
+        candidPlayer.setDead(true);
+        outputString(candidPlayer.getName() + "さんが襲撃されました。");
+
+        WereWolf.raidList.clear();
     }
 
     public boolean judge() {
-        return true;
+        ArrayList<Player> LivingWolfs = new ArrayList<>();
+        ArrayList<Player> LivingPlayers = new ArrayList<>();
+
+        for(Player p: players) {
+            if(p instanceof WereWolf && !p.isDead()) {
+                LivingWolfs.add(p);
+            } else if(!p.isDead()) {
+                LivingPlayers.add(p);
+            }
+        }
+
+        if(LivingWolfs.size() == 0) {
+            outputString("人狼の数が0になりました。市民側の勝利です。");
+            return true;
+        } else if(LivingPlayers.size() == LivingWolfs.size()) {
+            outputString("市民側のプレイヤー数と、人狼側のプレイヤー数が同数になりました。人狼側の勝利です。");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String inputString(String message) {
@@ -119,5 +171,10 @@ public class GameMaster {
 
     public static void outputString(String message) {
         System.out.println(message);
+    }
+
+    public static void clearConsoleScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

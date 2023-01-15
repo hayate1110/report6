@@ -11,6 +11,7 @@ public class WereWolf extends Player {
     @Override
     public void act(ArrayList<Player> players) {
         vote(players);
+        voteRaid(players);
     }
 
     public void voteRaid(ArrayList<Player> players) {
@@ -23,17 +24,29 @@ public class WereWolf extends Player {
         }
 
         for(int i=0;i<livingPlayers.size();i++) {
-            GameMaster.outputString(i + ":" + players.get(i).getName());
+            GameMaster.outputString(i + ":" + livingPlayers.get(i).getName());
         }
 
-        int index = GameMaster.inputInt("襲撃したいプレイヤーの番号を入力してください:");
-        int scoreInput = -1;
-        while(scoreInput < 1 || scoreInput > 3) {
-            scoreInput = GameMaster.inputInt("殺害優先度(1~3)を入力してください:");
+        while(true) {
+            try {
+                int index = GameMaster.inputInt("襲撃したいプレイヤーの番号を入力してください:");
+                int scoreInput = -1;
+                while(scoreInput < 1 || scoreInput > 3) {
+                    scoreInput = GameMaster.inputInt("殺害優先度(1~3)を入力してください:");
+                }
+                
+                Player p = livingPlayers.get(index);
+                int scoreList = raidList.getOrDefault(p, 0);
+                raidList.put(p, scoreList + scoreInput);
+                break;
+            } catch(IndexOutOfBoundsException e) {
+                GameMaster.outputString("そのようなプレイヤーは存在しません。");
+            }
         }
-        
-        Player p = livingPlayers.get(index);
-        int scoreList = raidList.getOrDefault(p, 0);
-        raidList.put(p, scoreList + scoreInput);
+    }
+
+    @Override
+    public String getRole() {
+        return "人狼";
     }
 }

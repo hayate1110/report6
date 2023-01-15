@@ -33,11 +33,28 @@ public abstract class Player {
     }
 
     public void vote(ArrayList<Player> players) {
-        for(int i=0; i<players.size(); i++) {
-            System.out.println(i + ":" + players.get(i).getName());
+        ArrayList<Player> livingPlayers = new ArrayList<>();
+
+        for(Player p: players) {
+            if(!p.isDead()) {
+                livingPlayers.add(p);
+            }
         }
-        int number = GameMaster.inputInt("投票したいプレイヤーの番号を入力してください：");
-        int value = executionList.getOrDefault(players.get(number), 0);
-        executionList.put(players.get(number), value + 1);
+
+        for(int i=0; i<livingPlayers.size(); i++) {
+            System.out.println(i + ":" + livingPlayers.get(i).getName());
+        }
+
+        while(true) {
+            try {
+                int index = GameMaster.inputInt("投票したいプレイヤーの番号を入力してください：");
+                int value = executionList.getOrDefault(livingPlayers.get(index), 0);
+                executionList.put(livingPlayers.get(index), value + 1);
+                break;
+            } catch(IndexOutOfBoundsException e) {
+                GameMaster.outputString("そのようなプレイヤーは存在しません。");
+            }
+        }
+        
     }
 }
