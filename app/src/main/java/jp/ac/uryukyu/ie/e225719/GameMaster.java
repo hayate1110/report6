@@ -26,6 +26,24 @@ public class GameMaster {
         int numFortuneTellers = inputInt("占い師の数を入力してください:");
         int numKnights = inputInt("騎士の数を入力してください:");
         int numCitizens = numPlayers - (numWolfs + numFortuneTellers + numKnights);
+
+        while(true) {
+            numWolfs = inputInt("人狼の数を入力してください:");
+            if(numWolfs >= numPlayers) {
+                outputString("人狼の数は、市民側の数未満にしてください。");
+                continue;
+            }
+            numFortuneTellers = inputInt("占い師の数を入力してください:");
+            numKnights = inputInt("騎士の数を入力してください:");
+            numCitizens = numPlayers - (numWolfs + numFortuneTellers + numKnights);
+            if(numCitizens <= 0) {
+                outputString("役職の数が多すぎます。");
+                outputString("役職の数:" + (numWolfs + numFortuneTellers + numKnights));
+                outputString("参加人数:" + numPlayers);
+                continue;
+            }
+            break;
+        }
         dayTime = inputInt("話し合いの時間を入力してください:");
         
         for(int i=0;i<numCitizens;i++) {
@@ -43,14 +61,21 @@ public class GameMaster {
         for(int i=0;i<numKnights;i++) {
             players.add(new Knight());
         }
-        sc.nextLine();
 
         Collections.shuffle(players);
 
         for(int i=0;i<players.size();i++) {
+            sc.nextLine();
+
             String name = inputString((i+1) + "番目のプレイヤーの名前を入力してください：");
             players.get(i).setName(name);
-            System.out.println("あなたの役職は"+players.get(i).getRole()+"です。");
+            outputString("あなたの役職は"+players.get(i).getRole()+"です。");
+
+            int btn = 0;
+            while(btn != 1) {
+                btn = inputInt("確認したら、1を入力してください:");
+            }
+            clearConsoleScreen();
         }
     }
 
