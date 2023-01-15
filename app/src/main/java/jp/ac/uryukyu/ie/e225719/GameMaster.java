@@ -140,11 +140,15 @@ public class GameMaster {
                 }   
             }
         }
-
-        candidPlayer.setDead(true);
-        outputString(candidPlayer.getName() + "さんが襲撃されました。");
+        if(Knight.protectedPlayers.contains(candidPlayer)) {
+            outputString(candidPlayer.getName() + "さんが襲撃されましたが、騎士によって守られました。");
+        } else {
+            candidPlayer.setDead(true);
+            outputString(candidPlayer.getName() + "さんが襲撃されました。");
+        }
 
         WereWolf.raidList.clear();
+        Knight.protectedPlayers.clear();
     }
 
     public boolean judge() {
