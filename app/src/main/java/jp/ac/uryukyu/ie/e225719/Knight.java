@@ -34,6 +34,7 @@ public class Knight extends Citizen {
                 int index = GameMaster.inputInt("守りたいプレイヤーの番号を入力してください:");
                 Player p = livingPlayers.get(index);
                 protectedPlayers.add(p);
+                break;
             } catch(IndexOutOfBoundsException e) {
                 GameMaster.outputString("そのようなプレイヤーは存在しません。");
             }

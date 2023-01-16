@@ -11,25 +11,26 @@ import java.util.concurrent.TimeUnit;
 public class GameMaster {
     private ArrayList<Player> players;
     private int dayTime;
-    private Random rand = new Random();
+    private Random rand;
 
     public static Scanner sc = new Scanner(System.in);
 
     public GameMaster() {
         players = new ArrayList<>();
         dayTime = 180;
+        rand = new Random();
     }
 
     public void setUp() {
         int numPlayers = inputInt("参加人数を入力してください:");
-        int numWolfs = inputInt("人狼の数を入力してください:");
-        int numFortuneTellers = inputInt("占い師の数を入力してください:");
-        int numKnights = inputInt("騎士の数を入力してください:");
-        int numCitizens = numPlayers - (numWolfs + numFortuneTellers + numKnights);
+        int numWolfs;
+        int numFortuneTellers;
+        int numKnights;
+        int numCitizens;
 
         while(true) {
             numWolfs = inputInt("人狼の数を入力してください:");
-            if(numWolfs >= numPlayers) {
+            if(numWolfs >= (numPlayers - numWolfs)) {
                 outputString("人狼の数は、市民側の数未満にしてください。");
                 continue;
             }
@@ -188,7 +189,7 @@ public class GameMaster {
         while(true) {
             try {
                 System.out.print(message);
-                result = sc.nextInt();
+                result  = sc.nextInt();
                 break;
             }catch(InputMismatchException e) {
                 System.out.println("整数を入力してください。");
@@ -203,6 +204,7 @@ public class GameMaster {
     }
 
     public static void clearConsoleScreen() {
+        System.out.print("Everything on the console will cleared");
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

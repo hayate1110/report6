@@ -3,6 +3,7 @@ package jp.ac.uryukyu.ie.e225719;
 import java.util.ArrayList;
 
 public class FortuneTeller extends Citizen {
+    String divine_result;
     @Override
     public void act(ArrayList<Player> players) {
         super.act(players);
@@ -24,6 +25,7 @@ public class FortuneTeller extends Citizen {
                 int index = GameMaster.inputInt("占いたいプレイヤーの番号を入力してください:");
                 Player p = players.get(index);
                 GameMaster.outputString(p.getName() + "さんの役職は" +p.getRole() + "です。");
+                divine_result = p.getName() + "さんの役職は" +p.getRole() + "です。";
                 break;
             } catch(IndexOutOfBoundsException e) {
                 GameMaster.outputString("そのようなプレイヤーは存在しません。");
