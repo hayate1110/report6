@@ -95,14 +95,14 @@ public class GameMaster {
 
     /**
      * ゲーム自体を動作させるメソッド。
-     * while文で、次の処理を繰り返す。
-     * 1. dayTimeに設定された秒数分プログラムを待機（話し合い時間）
-     * 2. actToPlayersメソッド（各プレイヤーのスキル発動）
-     * 3. executionメソッド（投票結果からプレイヤーを一人処刑）
-     * 4. judgeメソッド（終了判定を行う）
-     * 5. raidメソッド（人狼により襲撃を行う。）
-     * 6. judgeメソッド
-     * judgeメソッドから、Trueが返された時、while文を抜け、メソッドを修了する。
+     * while文で、次の処理を繰り返す。<br>
+     * 1. dayTimeに設定された秒数分プログラムを待機（話し合い時間）<br>
+     * 2. actToPlayersメソッド（各プレイヤーのスキル発動）<br>
+     * 3. executionメソッド（投票結果からプレイヤーを一人処刑）<br>
+     * 4. judgeメソッド（終了判定を行う）<br>
+     * 5. raidメソッド（人狼により襲撃を行う。）<br>
+     * 6. judgeメソッド<br>
+     * judgeメソッドから、Trueが返された時、while文を抜け、メソッドを終了する。
      */
     public void run() {
         while(true) {

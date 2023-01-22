@@ -32,9 +32,7 @@ public abstract class Player {
      * 
      * @return "プレイヤー"
      */
-    public String getRole() {
-        return "プレイヤー";
-    }
+    public abstract String getRole();
 
     /**
      * 自身の名前を返す。
@@ -74,7 +72,7 @@ public abstract class Player {
 
     /**
      * 処刑投票を行うメソッド。
-     * プレイヤーから投票したいプレイヤーの番号の入力を受け付けて、executionListのキーに、指定されたプレイヤーのインスタンスを、値に、元の値に1加算したものを設定する。
+     * プレイヤーから投票したいプレイヤーの番号の入力を受け付けて、executionListの、キーに、指定されたプレイヤーのインスタンスを、バリューに、元の値に1加算したものを設定する。
      * 
      * @param players: 参加プレイヤーのインスタンスのリスト
      */

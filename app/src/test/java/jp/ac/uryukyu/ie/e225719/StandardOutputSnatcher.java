@@ -1,5 +1,5 @@
-package jp.ac.uryukyu.ie.e225719;
 //参考https://kencoba.hatenadiary.org/entry/20120831/1346398388
+package jp.ac.uryukyu.ie.e225719;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
